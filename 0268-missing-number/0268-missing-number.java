@@ -1,9 +1,15 @@
 class Solution {
     public int missingNumber(int[] nums) {
-        int sum = nums.length *(nums.length + 1)/2;
-        for(int i = 0 ; i< nums.length ; i++){
-            sum = sum - nums[i];
+        int allXor = 0;
+        //XOR over the elements from [0-n]
+        for(int i = 0; i<= nums.length; i++){
+            allXor = allXor ^ i;
         }
-        return sum;
+
+        //XOR over the array elements with the allXor
+        for(int x : nums){
+            allXor = allXor ^ x;
+        }
+        return allXor;
     }
 }
