@@ -1,42 +1,30 @@
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-        // Create a temporary result array to hold merged elements
-        int[] res = new int[m + n];
+        // Start from the end of both arrays:
+        // a → last valid element in nums1
+        // b → last element in nums2
+        // index → last position in nums1 (total length m+n)
+        int a = m - 1, b = n - 1, index = nums1.length - 1;
 
-        // i → pointer for nums1
-        // j → pointer for nums2
-        // index → pointer for res (merged array)
-        int i = 0, j = 0, index = 0;
-
-        // Merge elements while both arrays still have elements left
-        while (i != m && j != n) {
-            if (nums1[i] <= nums2[j]) {
-                res[index] = nums1[i];
-                i++;
+        // Merge elements from the back to avoid overwriting nums1's valid data
+        while (a >= 0 && b >= 0) {
+            if (nums1[a] >= nums2[b]) {
+                // Place the larger element at the current index
+                nums1[index] = nums1[a];
+                a--;
             } else {
-                res[index] = nums2[j];
-                j++;
+                nums1[index] = nums2[b];
+                b--;
             }
-            index++;
+            index--;
         }
 
-        // Copy remaining elements from nums1 (if any)
-        while (i < m) {
-            res[index] = nums1[i];
-            index++;
-            i++;
-        }
-
-        // Copy remaining elements from nums2 (if any)
-        while (j < n) {
-            res[index] = nums2[j];
-            index++;
-            j++;
-        }
-
-        // Copy merged result back into nums1
-        for (int x = 0; x < res.length; x++) {
-            nums1[x] = res[x];
+        // If any elements remain in nums2, copy them into nums1
+        // (No need to copy remaining nums1 elements since they are already in place)
+        while (b >= 0) {
+            nums1[index] = nums2[b];
+            index--;
+            b--;
         }
     }
 }
